@@ -53,7 +53,7 @@ repositories {
 
 dependencies {
     // Conekta Elements with Compose UI
-    implementation "io.conekta:conekta-elements-compose:0.0.1-beta.7"
+    implementation "io.conekta:conekta-elements-compose:0.0.1-beta.8"
 
     // React Native
     implementation "com.facebook.react:react-android"
