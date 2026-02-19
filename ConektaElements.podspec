@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name    = "ConektaElements"
-  s.version = "0.0.1-beta.4"
+  s.version = "0.0.1-beta.5"
   s.summary = "React Native wrapper for Conekta Elements Compose UI"
   s.homepage = "https://github.com/conekta/conekta-elements"
   s.license  = { :type => "MIT" }
