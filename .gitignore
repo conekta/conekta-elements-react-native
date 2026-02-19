@@ -10,6 +10,8 @@ ios/build/
 example/ios/build/
 example/ios/Pods/
 example/ios/*.xcworkspace
+example/ios/.xcode.env.local
+example/ios/**/xcuserdata/
 example/ios/composeKit.xcframework
 composeKit.xcframework
 *.xcframework.zip
@@ -18,6 +20,8 @@ composeKit.xcframework
 example/android/build/
 example/android/.gradle/
 example/android/app/build/
+example/android/.cxx/
+example/android/app/.cxx/
 example/android/local.properties
 *.keystore
 !debug.keystore
