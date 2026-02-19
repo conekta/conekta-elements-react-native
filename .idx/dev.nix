@@ -3,7 +3,6 @@
   packages = [
     pkgs.nodejs_20
     pkgs.jdk17_headless
-    pkgs.gradle
     pkgs.android-tools
     pkgs.watchman
     pkgs.curl # Add curl for health checking Metro
