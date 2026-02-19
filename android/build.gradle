@@ -1,0 +1,67 @@
+buildscript {
+    ext.kotlin_version = '1.9.23'
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 34
+    namespace "io.conekta.rn"
+
+    defaultConfig {
+        minSdkVersion 24
+        targetSdkVersion 34
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinComposeExtensionVersion "1.5.11"
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+    maven {
+        url = uri("https://maven.pkg.github.com/conekta/conekta-elements")
+        credentials {
+            username = System.getenv("GP_USER") ?: project.findProperty("GP_USER") ?: ""
+            password = System.getenv("GP_TOKEN") ?: project.findProperty("GP_TOKEN") ?: ""
+        }
+    }
+}
+
+dependencies {
+    // Conekta Elements with Compose UI
+    // For local monorepo development, replace with:
+    // implementation project(":compose")
+    implementation "io.conekta:conekta-elements-compose:0.0.1-beta.4"
+
+    // React Native
+    implementation "com.facebook.react:react-android"
+
+    // Compose BOM
+    implementation platform("androidx.compose:compose-bom:2024.02.00")
+    implementation "androidx.compose.runtime:runtime"
+}

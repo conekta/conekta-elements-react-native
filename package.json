@@ -1,0 +1,34 @@
+{
+  "name": "conekta-elements-react-native",
+  "version": "0.0.1-beta.4",
+  "description": "React Native wrapper for Conekta Elements Compose UI",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "src/",
+    "android/",
+    "ios/",
+    "ConektaElements.podspec"
+  ],
+  "keywords": [
+    "react-native",
+    "conekta",
+    "payments",
+    "tokenizer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/conekta/conekta-elements-react-native.git"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "react": "18.2.0",
+    "react-native": "0.73.6",
+    "typescript": "^5.0.0"
+  }
+}

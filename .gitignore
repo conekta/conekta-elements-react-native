@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+
+# Build output
+lib/
+dist/
+
+# iOS
+ios/build/
+example/ios/build/
+example/ios/Pods/
+example/ios/*.xcworkspace
+example/ios/composeKit.xcframework
+composeKit.xcframework
+*.xcframework.zip
+
+# Android
+example/android/build/
+example/android/.gradle/
+example/android/app/build/
+example/android/local.properties
+*.keystore
+!debug.keystore
+
+# Metro
+.metro-health-check*
+
+# React Native
+example/.expo/
+
+# TypeScript
+*.tsbuildinfo
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
