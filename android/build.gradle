@@ -54,8 +54,6 @@ repositories {
 
 dependencies {
     // Conekta Elements with Compose UI
-    // For local monorepo development, replace with:
-    // implementation project(":compose")
     implementation "io.conekta:conekta-elements-compose:0.0.1-beta.4"
 
     // React Native
