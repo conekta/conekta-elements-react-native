@@ -1,5 +1,5 @@
 {
-  "name": "conekta-elements-react-native",
+  "name": "@conekta/conekta-elements-react-native",
   "version": "0.0.1-beta.4",
   "description": "React Native wrapper for Conekta Elements Compose UI",
   "main": "src/index.ts",
@@ -19,6 +19,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/conekta/conekta-elements-react-native.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "license": "MIT",
   "peerDependencies": {

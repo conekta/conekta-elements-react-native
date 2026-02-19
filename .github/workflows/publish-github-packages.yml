@@ -1,8 +1,9 @@
-name: Deploy_github
+name: Publish to GitHub Packages
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   publish:
@@ -13,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           registry-url: https://npm.pkg.github.com
@@ -27,31 +28,27 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
-      - name: Validate tag matches webapp version
+      - name: Validate tag matches package version
         id: validate
         run: |
-          TAG="${GITHUB_REF_NAME}"
-          VERSION="${TAG#v}"
-          MODULE_VERSION=$(grep -m1 '"version"' webApp/package.json | sed 's/.*: *"\(.*\)".*/\1/')
-          echo "tag_version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "module_version=$MODULE_VERSION" >> "$GITHUB_OUTPUT"
-          if [ "$VERSION" != "$MODULE_VERSION" ]; then
-            echo "::warning::Tag $VERSION does not match webApp version $MODULE_VERSION, skipping deploy-webapp"
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+
+          if [ "$TAG_VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "Tag version ($TAG_VERSION) does not match package.json version ($PACKAGE_VERSION)."
+            exit 1
           fi
 
           # Determine npm dist-tag
-          if echo "$VERSION" | grep -q "alpha"; then
+          if echo "$TAG_VERSION" | grep -q "alpha"; then
             echo "dist_tag=alpha" >> "$GITHUB_OUTPUT"
-          elif echo "$VERSION" | grep -q "beta"; then
+          elif echo "$TAG_VERSION" | grep -q "beta"; then
             echo "dist_tag=beta" >> "$GITHUB_OUTPUT"
           else
             echo "dist_tag=latest" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Publish to GitHub Packages NPM
-        run: npm publish --tag ${{ steps.validate.outputs.dist_tag }}
+        run: npm publish --registry=https://npm.pkg.github.com --tag ${{ steps.validate.outputs.dist_tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
