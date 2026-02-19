@@ -2,9 +2,7 @@ package io.conekta.rn
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.AbstractComposeView
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.WritableMap
@@ -14,22 +12,24 @@ import io.conekta.elements.tokenizer.models.TokenizerConfig
 import io.conekta.elements.tokenizer.models.TokenizerError
 
 class ConektaTokenizerNativeView(context: Context) : AbstractComposeView(context) {
-    private var publicKey by mutableStateOf("")
-    private var merchantName by mutableStateOf("Demo Store")
+    private val publicKeyState = mutableStateOf("")
+    private val merchantNameState = mutableStateOf("Demo Store")
 
     var onSuccessEvent: ((WritableMap) -> Unit)? = null
     var onErrorEvent: ((WritableMap) -> Unit)? = null
 
     fun setPublicKey(value: String) {
-        publicKey = value
+        publicKeyState.value = value
     }
 
     fun setMerchantName(value: String) {
-        merchantName = value
+        merchantNameState.value = value
     }
 
     @Composable
     override fun Content() {
+        val publicKey = publicKeyState.value
+        val merchantName = merchantNameState.value
         if (publicKey.isEmpty()) return
         val config =
                 TokenizerConfig(
