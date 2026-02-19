@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   channel = "stable-25.05";
   packages = [
-    pkgs.nodejs_18
+    pkgs.nodejs_20
     pkgs.jdk17_headless
     pkgs.gradle
     pkgs.android-tools
@@ -17,7 +17,7 @@
     workspace = {
       onCreate = {
         install = ''
-                    # Install dependencies (solo lo declarado en example/package.json)
+                    # Todo se ejecuta desde example/ (app React Native)
                     cd example &&
                     npm install --prefer-offline --no-audit --no-progress
 
@@ -26,7 +26,7 @@
                     export ANDROID_SDK_ROOT=$HOME/.android-sdk-local
                     export ANDROID_HOME=$ANDROID_SDK_ROOT
 
-          					rm -rf ~/.gradle/caches/
+                    rm -rf ~/.gradle/caches/
 
                     # Accept Android SDK licenses
                     mkdir -p $ANDROID_SDK_ROOT/licenses
@@ -34,8 +34,8 @@
                     echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> $ANDROID_SDK_ROOT/licenses/android-sdk-license
                     echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_SDK_ROOT/licenses/android-sdk-preview-license
 
-                    # Add more memory to the JVM
-                    sed -i 's/org.gradle.jvmargs=-Xmx2048m -XX:MaxMetaspaceSize=512m/org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m/' "android/gradle.properties"
+                    # Add more memory to the JVM (cwd es example/, android/ está ahí)
+                    sed -i 's/org.gradle.jvmargs=-Xmx2048m -XX:MaxMetaspaceSize=512m/org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m/' android/gradle.properties
 
                      # Print success message in green
                      echo -e "\n\033[1;32m╭──────────────────────────────────────────────────────────╮\033[0m"
@@ -56,19 +56,17 @@
             "sh"
             "-c"
             ''
-              # Set the correct emulator to use
+              # Ejecutar todo desde example/ (app React Native)
+              cd example || exit 1
+
               export ANDROID_SERIAL=emulator-5554
-
-              # Start watchman
-              watchman watch $PWD
-
-              # Set the correct Metro port environment variable
               export RCT_METRO_PORT=$PORT
+
+              watchman watch $PWD
 
               npm start &
               METRO_PID=$!
 
-              # Wait for Metro to be available
               until curl -s http://localhost:$PORT/status > /dev/null; do
                 sleep 1
               done

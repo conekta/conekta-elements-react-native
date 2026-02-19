@@ -100,6 +100,19 @@ export default function CheckoutScreen() {
 | { type: 'ApiError'; code: string; message: string }
 ```
 
+## Expo
+
+This library uses native modules (Kotlin Multiplatform) and is **not compatible with Expo Go**.
+
+Expo users must create a [development build](https://docs.expo.dev/develop/development-builds/introduction/):
+
+```bash
+npx expo install expo-dev-client
+eas build --profile development
+```
+
+After that, autolinking will pick up the module automatically and the library works as usual.
+
 ## Development
 
 Clona el repo y usa la app de ejemplo:
