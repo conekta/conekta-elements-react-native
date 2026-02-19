@@ -28,21 +28,12 @@
 
     workspace = {
       onCreate = {
-        install-deps = {
-          command = "npm install && cd example && npm install";
-          runInBackground = true;
-        };
+        install-deps = "npm install && cd example && npm install";
       };
 
       onStart = {
-        setup-adb = {
-          command = "adb -s localhost:5554 wait-for-device && adb -s localhost:5554 reverse tcp:8081 tcp:8081";
-          runInBackground = false;
-        };
-        start-metro = {
-          command = "cd example && npx react-native start --port 8081";
-          runInBackground = true;
-        };
+        setup-adb   = "adb -s localhost:5554 reverse tcp:8081 tcp:8081";
+        start-metro = "cd example && npx react-native start --port 8081";
       };
     };
   };
