@@ -71,7 +71,8 @@
                 sleep 1
               done
 
-              npm run android
+              # --no-packager: Metro ya está corriendo arriba; evita "no terminal app was specified"
+              npm run android -- --no-packager
               wait $METRO_PID
             ''
           ];
