@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   channel = "stable-25.05";
 
-  packages = [ pkgs.nodejs_18 pkgs.jdk17 ];
+  packages = [ pkgs.nodejs_18 ];
 
   idx = {
     extensions = [
