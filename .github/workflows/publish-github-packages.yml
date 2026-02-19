@@ -1,13 +1,12 @@
-name: Publish to GitHub Packages
+name: Deploy_github
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: aws-runner-set
     permissions:
       contents: read
       packages: write
