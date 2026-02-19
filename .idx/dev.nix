@@ -21,6 +21,18 @@
                     cd example &&
                     npm install --prefer-offline --no-audit --no-progress
 
+                    # Bootstrap native folders when repository only has JS example files.
+                    # `run-android` requires example/android/settings.gradle and example/android/app.
+                    if [ ! -f android/settings.gradle ] || [ ! -d android/app ]; then
+                      echo "Bootstrapping React Native native folders for example/..."
+                      TMP_RN_DIR="$(mktemp -d)"
+                      npx --yes react-native@0.73.6 init TempExample --skip-install --directory "$TMP_RN_DIR"
+                      rm -rf android ios
+                      mv "$TMP_RN_DIR/android" ./android
+                      mv "$TMP_RN_DIR/ios" ./ios
+                      rm -rf "$TMP_RN_DIR"
+                    fi
+
                     # Create local Android SDK directory in home folder
                     mkdir -p $HOME/.android-sdk-local
                     export ANDROID_SDK_ROOT=$HOME/.android-sdk-local
@@ -58,6 +70,12 @@
             ''
               # Ejecutar todo desde example/ (app React Native)
               cd example || exit 1
+
+              if [ ! -f android/settings.gradle ] || [ ! -d android/app ]; then
+                echo "Android project not initialized in example/ (missing android/settings.gradle or android/app)."
+                echo "Rebuild the IDX workspace so onCreate can bootstrap native folders."
+                exit 1
+              fi
 
               export ANDROID_SERIAL=emulator-5554
               export RCT_METRO_PORT=$PORT
