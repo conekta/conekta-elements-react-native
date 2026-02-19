@@ -107,16 +107,31 @@ export default function CheckoutScreen() {
 
 ## Expo
 
-This library uses native modules (Kotlin Multiplatform) and is **not compatible with Expo Go**.
+This library contains native code and has the following compatibility:
 
-Expo users must create a [development build](https://docs.expo.dev/develop/development-builds/introduction/):
+| Expo workflow | Compatible |
+|---------------|-----------|
+| Expo Go | No |
+| Development Build | Yes |
+| Bare workflow | Yes |
+| EAS Build | Yes |
+
+**Expo Go is not supported.** It is a sandboxed app with a fixed set of native modules and cannot load custom native code.
+
+To use this library with Expo, create a [development build](https://docs.expo.dev/develop/development-builds/introduction/):
 
 ```bash
 npx expo install expo-dev-client
+
+# Build locally
+npx expo run:ios
+npx expo run:android
+
+# Or build with EAS
 eas build --profile development
 ```
 
-After that, autolinking will pick up the module automatically and the library works as usual.
+After that, autolinking picks up the module automatically and the library works as usual.
 
 ## Development
 
