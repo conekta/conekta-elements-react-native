@@ -41,7 +41,7 @@ Autolinking registra el módulo automáticamente. No se requiere configuración 
 
 ```tsx
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { ConektaTokenizer } from '@conekta/conekta-elements-react-native';
 import type { TokenResult, TokenizerError } from '@conekta/conekta-elements-react-native';
 
