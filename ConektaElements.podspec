@@ -12,9 +12,19 @@ Pod::Spec.new do |s|
 
   s.dependency "React-Core"
 
-  # Downloads the xcframework from GitHub releases during pod install
+  # Downloads the xcframework from a private GitHub release.
+  # Requires a GitHub personal access token with `repo` scope:
+  #   export GITHUB_TOKEN=<your_token>
+  #   pod install
   s.prepare_command = <<-CMD
-    curl -L "https://github.com/conekta/conekta-elements/releases/download/latest/composeKit.xcframework.zip" \
+    if [ -z "$GITHUB_TOKEN" ]; then
+      echo "error: GITHUB_TOKEN is not set. Export a GitHub token with repo scope before running pod install."
+      exit 1
+    fi
+    curl -L \
+         -H "Authorization: Bearer $GITHUB_TOKEN" \
+         -H "Accept: application/octet-stream" \
+         "https://github.com/conekta/conekta-elements/releases/download/latest/composeKit.xcframework.zip" \
          -o composeKit.xcframework.zip
     unzip -o composeKit.xcframework.zip
     rm     composeKit.xcframework.zip
