@@ -56,3 +56,5 @@ yarn-debug.log*
 yarn-error.log*
 *.log
 .gradle-home/
+android/.gradle/
+android/build/
