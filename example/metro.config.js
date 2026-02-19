@@ -1,11 +1,11 @@
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const path = require('path');
 
-const root = path.resolve(__dirname, '..');
+const libSrc = path.resolve(__dirname, '../src');
 
 const config = {
-  // Watch the library root so Metro picks up changes to src/
-  watchFolders: [root],
+  // Watch only the library src/ so Metro picks up changes without scanning node_modules
+  watchFolders: [libSrc],
 
   resolver: {
     // Resolve peer deps (react, react-native) from example/node_modules
