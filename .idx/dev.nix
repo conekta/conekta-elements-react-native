@@ -37,6 +37,8 @@
                     mkdir -p $HOME/.android-sdk-local
                     export ANDROID_SDK_ROOT=$HOME/.android-sdk-local
                     export ANDROID_HOME=$ANDROID_SDK_ROOT
+                    export GRADLE_USER_HOME=$PWD/.gradle-home
+                    mkdir -p "$GRADLE_USER_HOME"
 
                     rm -rf ~/.gradle/caches/
 
@@ -77,8 +79,12 @@
                 exit 1
               fi
 
-              export ANDROID_SERIAL=emulator-5554
               export RCT_METRO_PORT=$PORT
+              export GRADLE_USER_HOME=$PWD/.gradle-home
+              mkdir -p "$GRADLE_USER_HOME"
+
+              # Avoid daemon protocol/cache conflicts between different Java/Gradle environments.
+              ./android/gradlew --stop >/dev/null 2>&1 || true
 
               watchman watch $PWD
 
@@ -90,7 +96,7 @@
               done
 
               # --no-packager: Metro ya está corriendo arriba; evita "no terminal app was specified"
-              npm run android -- --no-packager
+              npm run android -- --no-packager --no-daemon
               wait $METRO_PID
             ''
           ];
