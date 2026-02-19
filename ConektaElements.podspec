@@ -15,13 +15,23 @@ Pod::Spec.new do |s|
   # Downloads the xcframework from a private GitHub release.
   # Requires ~/.netrc with GitHub credentials before running pod install:
   #
-  #   echo "machine api.github.com login <user> password <token>" >> ~/.netrc
+  #   printf "machine api.github.com login <user> password <token>\nmachine github.com login <user> password <token>\n" >> ~/.netrc
   #   chmod 600 ~/.netrc
   #
   s.prepare_command = <<-CMD
+    ASSET_URL=$(curl -s --netrc \
+      -H "Accept: application/vnd.github+json" \
+      "https://api.github.com/repos/conekta/conekta-elements/releases/latest" \
+      | grep -o '"url":"[^"]*composeKit\.xcframework\.zip[^"]*"' \
+      | head -1 \
+      | sed 's/"url":"//;s/"//')
+    if [ -z "$ASSET_URL" ]; then
+      echo "error: Could not find composeKit.xcframework.zip. Check ~/.netrc credentials."
+      exit 1
+    fi
     curl -L --netrc \
          -H "Accept: application/octet-stream" \
-         "https://github.com/conekta/conekta-elements/releases/download/latest/composeKit.xcframework.zip" \
+         "$ASSET_URL" \
          -o composeKit.xcframework.zip
     unzip -o composeKit.xcframework.zip
     rm     composeKit.xcframework.zip
