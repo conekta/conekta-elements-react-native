@@ -19,7 +19,11 @@
         android = {
           command = [
             "bash" "-c"
-            "cd example && npx react-native run-android --port 8081"
+            ''
+              cd example &&
+              npm install --prefer-offline &&
+              npx react-native run-android --port 8081
+            ''
           ];
           manager = "android";
         };
@@ -28,12 +32,18 @@
 
     workspace = {
       onCreate = {
-        install-deps = "npm install && cd example && npm install";
+        default.openFiles = [ "example/App.tsx" ];
       };
 
       onStart = {
-        setup-adb   = "adb -s localhost:5554 reverse tcp:8081 tcp:8081";
-        start-metro = "cd example && npx react-native start --port 8081";
+        start-metro =
+          ''
+            npm install --prefer-offline &&
+            cd example &&
+            npm install --prefer-offline &&
+            adb -s localhost:5554 reverse tcp:8081 tcp:8081 || true &&
+            npx react-native start --port 8081
+          '';
       };
     };
   };
