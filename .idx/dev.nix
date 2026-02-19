@@ -20,8 +20,9 @@
           command = [
             "bash" "-c"
             ''
+              adb -s localhost:5554 wait-for-device &&
+              adb -s localhost:5554 reverse tcp:8081 tcp:8081 &&
               cd example &&
-              npm install --prefer-offline &&
               npx react-native run-android --port 8081
             ''
           ];
@@ -41,7 +42,6 @@
             npm install --prefer-offline &&
             cd example &&
             npm install --prefer-offline &&
-            adb -s localhost:5554 reverse tcp:8081 tcp:8081 || true &&
             npx react-native start --port 8081
           '';
       };
