@@ -1,6 +1,6 @@
 {
   "name": "@conekta/conekta-elements-react-native",
-  "version": "0.0.1-beta.15",
+  "version": "0.0.1-beta.16",
   "description": "React Native wrapper for Conekta Elements Compose UI",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -8,6 +8,7 @@
     "src/",
     "android/",
     "ios/",
+    "scripts/",
     "ConektaElements.podspec"
   ],
   "keywords": [
@@ -24,6 +25,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
+    "postinstall": "node scripts/download-xcframework.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },

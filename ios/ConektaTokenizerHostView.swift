@@ -3,12 +3,29 @@ import React
 import composeKit
 
 class ConektaTokenizerHostView: UIView {
-    @objc var publicKey: String = "" { didSet { update() } }
-    @objc var merchantName: String = "Demo Store" { didSet { update() } }
+    @objc var publicKey: String = "" { didSet { updateIfReady() } }
+    @objc var merchantName: String = "Demo Store" { didSet { updateIfReady() } }
     @objc var onSuccess: RCTBubblingEventBlock?
     @objc var onError: RCTBubblingEventBlock?
 
     private var hostedVC: UIViewController?
+    private var needsUpdate = false
+
+    private func updateIfReady() {
+        if findParentViewController() != nil {
+            update()
+        } else {
+            needsUpdate = true
+        }
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if window != nil && needsUpdate {
+            needsUpdate = false
+            update()
+        }
+    }
 
     private func update() {
         guard !publicKey.isEmpty else { return }
