@@ -26,6 +26,15 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
+      - name: Validate CHANGELOG contains version entry
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if ! grep -q "\[${PACKAGE_VERSION}\]" CHANGELOG.md; then
+            echo "CHANGELOG.md does not contain an entry for version ${PACKAGE_VERSION}."
+            echo "Please add a section '## [${PACKAGE_VERSION}]' before publishing."
+            exit 1
+          fi
+
       - name: Validate tag matches package version
         id: validate
         run: |
