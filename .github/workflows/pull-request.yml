@@ -69,3 +69,22 @@ jobs:
       - name: Validate build configuration
         working-directory: android
         run: ./gradlew tasks --no-daemon
+
+  validate-ios:
+    name: Validate iOS
+    runs-on: aws-runner-set
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate podspec syntax
+        run: ruby -e "Pod::Spec.from_file('ConektaElements.podspec')" 2>/dev/null || ruby -c ConektaElements.podspec
+
+      - name: Verify iOS source files exist
+        run: |
+          FILES=$(find ios -type f -name "*.swift" -o -name "*.m" -o -name "*.h" | wc -l)
+          echo "Found $FILES iOS source file(s)"
+          if [ "$FILES" -eq 0 ]; then
+            echo "Error: No iOS source files found in ios/"
+            exit 1
+          fi
