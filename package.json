@@ -39,6 +39,6 @@
     "react-native": "0.73.6",
     "react-test-renderer": "^18.2.0",
     "typescript": "^5.0.0",
-    "vitest": "^1.6.1"
+    "vitest": "^4.0.18"
   }
 }
