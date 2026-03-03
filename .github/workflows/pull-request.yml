@@ -70,6 +70,10 @@ jobs:
         working-directory: android
         run: ./gradlew tasks --no-daemon
 
+      - name: Validate dependency resolution
+        working-directory: android
+        run: ./gradlew dependencies --configuration releaseRuntimeClasspath --no-daemon
+
   validate-ios:
     name: Validate iOS
     runs-on: aws-runner-set
