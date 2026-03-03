@@ -1,5 +1,7 @@
+def packageJson = new groovy.json.JsonSlurper().parse(file("$projectDir/../package.json"))
+
 buildscript {
-    ext.kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.kotlinVersion : '2.0.21' 
+    ext.kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.kotlinVersion : '2.0.21'
     repositories {
         google()
         mavenCentral()
@@ -42,18 +44,11 @@ android {
 repositories {
     google()
     mavenCentral()
-    maven {
-        url = uri("https://maven.pkg.github.com/conekta/conekta-elements")
-        credentials {
-            username = System.getenv("GP_USER") ?: project.findProperty("GP_USER") ?: ""
-            password = System.getenv("GP_TOKEN") ?: project.findProperty("GP_TOKEN") ?: ""
-        }
-    }
 }
 
 dependencies {
     // Conekta Elements with Compose UI
-    implementation "io.conekta:conekta-elements-compose:0.0.1-beta.8"
+    implementation "io.conekta:conekta-elements-compose:${packageJson.conektaElements.version}"
 
     // React Native
     implementation "com.facebook.react:react-android"

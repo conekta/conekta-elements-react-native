@@ -12,11 +12,10 @@ React Native wrapper for [Conekta Elements](https://github.com/conekta/conekta-e
 
 ## Installation
 
-This package is published to GitHub Packages. First, configure your `.npmrc` to use the GitHub registry for the `@conekta` scope:
+This package is published to GitHub Packages. Configure your `.npmrc` to use the GitHub registry for the `@conekta` scope:
 
 ```
 @conekta:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
 ```
 
 Then install:
@@ -31,11 +30,11 @@ npm install @conekta/conekta-elements-react-native
 cd ios && pod install
 ```
 
-`pod install` descarga automáticamente el XCFramework de Compose desde GitHub releases.
+`pod install` automatically downloads the Compose XCFramework from GitHub releases.
 
 ### Android
 
-Autolinking registra el módulo automáticamente. No se requiere configuración adicional.
+Autolinking registers the module automatically. No additional configuration is required.
 
 ## Usage
 
@@ -135,14 +134,23 @@ After that, autolinking picks up the module automatically and the library works 
 
 ## Development
 
-Clona el repo y usa la app de ejemplo:
-
 ```bash
 git clone https://github.com/conekta/conekta-elements-react-native.git
 cd conekta-elements-react-native
-
 npm install
+```
 
+### Scripts
+
+```bash
+npm test          # Run tests
+npm run test:watch # Run tests in watch mode
+npx tsc --noEmit  # Type check
+```
+
+### Example app
+
+```bash
 # Android
 cd example && npx react-native run-android
 
