@@ -1,8 +1,10 @@
 #import <React/RCTViewManager.h>
 
-RCT_EXPORT_MODULE(ConektaTokenizerView)
+@interface RCT_EXTERN_MODULE(ConektaTokenizerView, RCTViewManager)
 
 RCT_EXPORT_VIEW_PROPERTY(publicKey,    NSString)
 RCT_EXPORT_VIEW_PROPERTY(merchantName, NSString)
 RCT_EXPORT_VIEW_PROPERTY(onSuccess,    RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onError,      RCTBubblingEventBlock)
+
+@end

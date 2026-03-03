@@ -1,6 +1,6 @@
 import React
 
-@objc(ConektaTokenizerViewManager)
+@objc(ConektaTokenizerView)
 class ConektaTokenizerViewManager: RCTViewManager {
 
     override func view() -> UIView! {
