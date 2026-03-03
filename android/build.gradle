@@ -1,6 +1,7 @@
+def packageJson = new groovy.json.JsonSlurper().parse(file("$projectDir/../package.json"))
+
 buildscript {
     ext.kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.kotlinVersion : '2.0.21'
-    ext.conekta_elements_version = '0.2.0-beta.2'
     repositories {
         google()
         mavenCentral()
@@ -47,7 +48,7 @@ repositories {
 
 dependencies {
     // Conekta Elements with Compose UI
-    implementation "io.conekta:conekta-elements-compose:$conekta_elements_version"
+    implementation "io.conekta:conekta-elements-compose:${packageJson.conektaElements.version}"
 
     // React Native
     implementation "com.facebook.react:react-android"

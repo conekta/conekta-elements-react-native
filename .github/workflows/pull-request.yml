@@ -31,6 +31,39 @@ jobs:
       - name: Run tests
         run: npm test
 
+  validate-versions:
+    name: Validate Versions
+    runs-on: aws-runner-set
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify podspec version matches package.json
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          POD_VERSION=$(grep "s.version" ConektaElements.podspec | head -1 | sed "s/.*= *package\['version'\].*/DYNAMIC/" | head -1)
+          if [ "$POD_VERSION" = "DYNAMIC" ]; then
+            echo "Podspec reads version from package.json (dynamic)"
+          else
+            echo "Warning: podspec version is hardcoded, verify it matches $PKG_VERSION"
+          fi
+
+      - name: Verify conektaElements config exists in package.json
+        run: |
+          node -e "
+            const pkg = require('./package.json');
+            if (!pkg.conektaElements?.version) {
+              console.error('Error: conektaElements.version missing in package.json');
+              process.exit(1);
+            }
+            if (!pkg.conektaElements?.iosChecksum) {
+              console.error('Error: conektaElements.iosChecksum missing in package.json');
+              process.exit(1);
+            }
+            console.log('conektaElements.version:', pkg.conektaElements.version);
+            console.log('conektaElements.iosChecksum:', pkg.conektaElements.iosChecksum);
+          "
+
   validate-package:
     name: Validate Package
     runs-on: aws-runner-set

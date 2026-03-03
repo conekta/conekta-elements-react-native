@@ -1,8 +1,13 @@
+require 'json'
+
+package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
+elements = package['conektaElements']
+
 Pod::Spec.new do |s|
   s.name    = "ConektaElements"
-  s.version = "0.0.1-beta.12"
+  s.version = package['version']
   s.summary = "React Native wrapper for Conekta Elements Compose UI"
-  s.homepage = "https://github.com/conekta/conekta-elements"
+  s.homepage = "https://github.com/conekta/conekta-elements-react-native"
   s.license  = { :type => "MIT" }
   s.author   = { "Conekta" => "engineering@conekta.com" }
   s.source   = { :git => "https://github.com/conekta/conekta-elements-react-native.git", :tag => s.version }
@@ -13,10 +18,11 @@ Pod::Spec.new do |s|
   s.dependency "React-Core"
 
   s.prepare_command = <<-CMD
+    set -e
     curl -L \
-         "https://github.com/conekta/conekta-elements/releases/download/0.2.0-beta.2/composeKit.xcframework.zip" \
+         "https://github.com/conekta/conekta-elements/releases/download/#{elements['version']}/composeKit.xcframework.zip" \
          -o composeKit.xcframework.zip
-    echo "e5fc1a7030756eea3f8cc4c229c178baac9369e4c3ba3238274f03824fdb02b2  composeKit.xcframework.zip" | shasum -a 256 -c -
+    echo "#{elements['iosChecksum']}  composeKit.xcframework.zip" | shasum -a 256 -c -
     unzip -o composeKit.xcframework.zip
     rm     composeKit.xcframework.zip
   CMD
