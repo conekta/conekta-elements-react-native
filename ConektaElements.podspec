@@ -30,25 +30,4 @@ Pod::Spec.new do |s|
   s.vendored_frameworks = "composeKit.xcframework"
   s.source_files        = "ios/**/*.{swift,m,h}"
   s.pod_target_xcconfig = { "SWIFT_VERSION" => "5.9" }
-
-  # Copy Compose Multiplatform resources (fonts, strings) into the app bundle
-  compose_resources_script = <<-SCRIPT
-    FRAMEWORK_DIR="${BUILT_PRODUCTS_DIR}/composeKit.framework"
-    if [ ! -d "$FRAMEWORK_DIR/composeResources" ]; then
-      FRAMEWORK_DIR=$(find "${PODS_ROOT}/../" -path "*/composeKit.framework/composeResources" -maxdepth 8 2>/dev/null | head -1 | sed 's|/composeResources||')
-    fi
-    if [ -d "$FRAMEWORK_DIR/composeResources" ]; then
-      DEST="${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/compose-resources"
-      mkdir -p "$DEST"
-      cp -R "$FRAMEWORK_DIR/composeResources" "$DEST/"
-      echo "Copied composeResources to $DEST"
-    else
-      echo "warning: composeResources not found in composeKit.framework"
-    fi
-  SCRIPT
-  s.script_phase = {
-    :name => 'Copy Compose Resources',
-    :script => compose_resources_script,
-    :execution_position => :after_compile
-  }
 end
