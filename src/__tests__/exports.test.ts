@@ -4,7 +4,6 @@ import type {
   TokenizerConfig,
   TokenResult,
   TokenizerError,
-  ConektaTokenizerProps,
 } from '../index';
 
 describe('Module exports', () => {
