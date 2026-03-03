@@ -1,5 +1,6 @@
 buildscript {
-    ext.kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.kotlinVersion : '2.0.21' 
+    ext.kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.kotlinVersion : '2.0.21'
+    ext.conekta_elements_version = '0.2.0-beta.2'
     repositories {
         google()
         mavenCentral()
@@ -46,7 +47,7 @@ repositories {
 
 dependencies {
     // Conekta Elements with Compose UI
-    implementation "io.conekta:conekta-elements-compose:0.2.0-beta.2"
+    implementation "io.conekta:conekta-elements-compose:$conekta_elements_version"
 
     // React Native
     implementation "com.facebook.react:react-android"
