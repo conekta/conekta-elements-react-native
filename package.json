@@ -23,6 +23,10 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
   "license": "MIT",
   "peerDependencies": {
     "react": "*",
@@ -30,8 +34,11 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
+    "@types/react-test-renderer": "^19.1.0",
     "react": "18.2.0",
     "react-native": "0.73.6",
-    "typescript": "^5.0.0"
+    "react-test-renderer": "^18.2.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.6.1"
   }
 }

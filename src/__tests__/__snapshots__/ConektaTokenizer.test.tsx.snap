@@ -1,0 +1,18 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ConektaTokenizer > renders successfully 1`] = `
+<ConektaTokenizerView
+  merchantName="Demo Store"
+  onError={[Function]}
+  onSuccess={[Function]}
+  publicKey="key_test_123"
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+/>
+`;
