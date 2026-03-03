@@ -28,8 +28,6 @@ class ConektaTokenizerHostView: UIView {
     }
 
     private func update() {
-        guard !publicKey.isEmpty else { return }
-
         hostedVC?.view.removeFromSuperview()
         hostedVC?.removeFromParent()
 
