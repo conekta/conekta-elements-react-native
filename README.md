@@ -12,16 +12,8 @@ React Native wrapper for [Conekta Elements](https://github.com/conekta/conekta-e
 
 ## Installation
 
-This package is published to GitHub Packages. Configure your `.npmrc` to use the GitHub registry for the `@conekta` scope:
-
-```
-@conekta:registry=https://npm.pkg.github.com
-```
-
-Then install:
-
 ```bash
-npm install @conekta/conekta-elements-react-native
+npm install conekta-elements-react-native
 ```
 
 ### iOS
@@ -41,8 +33,8 @@ Autolinking registers the module automatically. No additional configuration is r
 ```tsx
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ConektaTokenizer } from '@conekta/conekta-elements-react-native';
-import type { TokenResult, TokenizerError } from '@conekta/conekta-elements-react-native';
+import { ConektaTokenizer } from 'conekta-elements-react-native';
+import type { TokenResult, TokenizerError } from 'conekta-elements-react-native';
 
 export default function CheckoutScreen() {
   const [token, setToken] = useState('');
