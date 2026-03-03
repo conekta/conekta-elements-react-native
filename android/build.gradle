@@ -42,18 +42,11 @@ android {
 repositories {
     google()
     mavenCentral()
-    maven {
-        url = uri("https://maven.pkg.github.com/conekta/conekta-elements")
-        credentials {
-            username = System.getenv("GP_USER") ?: project.findProperty("GP_USER") ?: ""
-            password = System.getenv("GP_TOKEN") ?: project.findProperty("GP_TOKEN") ?: ""
-        }
-    }
 }
 
 dependencies {
     // Conekta Elements with Compose UI
-    implementation "io.conekta:conekta-elements-compose:0.0.1-beta.8"
+    implementation "io.conekta:conekta-elements-compose:0.0.2-beta.2"
 
     // React Native
     implementation "com.facebook.react:react-android"
