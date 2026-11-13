@@ -1,8 +1,9 @@
 name: Publish to GitHub Packages
 
 # A release publishes the package to GitHub Packages (npm.pkg.github.com) as
-# @conekta/conekta-elements-react-native. The npm dist-tag follows the version: `alpha` and `beta` for a prerelease
-# of that kind, `latest` for a stable one, so `npm install` never picks a prerelease by itself.
+# @conekta/conekta-elements-react-native. The npm dist-tag follows the version: a prerelease is tagged with the
+# name it carries after the hyphen (1.0.0-beta.1 → `beta`, -rc.1 → `rc`), a stable version is `latest`, so
+# `npm install` never picks a prerelease by itself.
 on:
   release:
     types: [published]
@@ -53,8 +54,12 @@ jobs:
             exit 1
           fi
           DIST_TAG=latest
-          if echo "$TAG_VERSION" | grep -q "beta"; then DIST_TAG=beta; fi
-          if echo "$TAG_VERSION" | grep -q "alpha"; then DIST_TAG=alpha; fi
+          case "$TAG_VERSION" in
+            *-*)
+              PRERELEASE="${TAG_VERSION#*-}"
+              DIST_TAG="${PRERELEASE%%.*}"
+              ;;
+          esac
           echo "dist_tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
 
       # GitHub Packages takes only packages scoped to the organization: the published copy is renamed here (the

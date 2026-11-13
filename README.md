@@ -24,8 +24,8 @@ cd ios && pod install
 
 `pod install` automatically downloads the Compose XCFramework from GitHub releases.
 
-The form is drawn with Compose Multiplatform, which requires this key in your app's `Info.plist`; without it the
-app closes when the form opens:
+The form is drawn with Compose Multiplatform. Add this key to your app's `Info.plist` so an iPhone with a
+120 Hz screen draws it at its full refresh rate; without it the form works, at 60 Hz:
 
 ```xml
 <key>CADisableMinimumFrameDurationOnPhone</key>

@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Uses Conekta Components 1.2.1, from Maven Central (Android) and `conekta/conekta-components-ios` (iOS)
 - **Breaking**: minimum React Native 0.81 (Android `compileSdk` 36, Android Gradle Plugin 8.9.1, Kotlin 2.1) and iOS 15.0; the iOS framework is arm64 only (devices and Apple silicon simulators)
-- iOS: `CADisableMinimumFrameDurationOnPhone` is required in the app's `Info.plist`
+- iOS: `CADisableMinimumFrameDurationOnPhone` in the app's `Info.plist` is recommended (120 Hz screens); the form opens without it
 
 ### Added
 

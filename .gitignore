@@ -13,6 +13,7 @@ example/ios/*.xcworkspace
 example/ios/.xcode.env.local
 example/ios/**/xcuserdata/
 example/ios/composeKit.xcframework
+compose-resources/
 composeKit.xcframework
 *.xcframework.zip
 

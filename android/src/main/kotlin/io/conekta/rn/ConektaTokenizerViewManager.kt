@@ -57,4 +57,7 @@ private class TokenizerEvent(
     override fun getEventName(): String = name
 
     override fun getEventData(): WritableMap = payload
+
+    /** Every answer reaches JS: two of the same name in one frame are two results, never merged into the last. */
+    override fun canCoalesce(): Boolean = false
 }

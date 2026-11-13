@@ -30,8 +30,8 @@ cd ios && pod install
 
 `pod install` descarga automáticamente el XCFramework de Compose desde GitHub Releases.
 
-El formulario se dibuja con Compose Multiplatform, que exige esta clave en el `Info.plist` de tu app; sin ella la
-app se cierra al abrir el formulario:
+El formulario se dibuja con Compose Multiplatform. Agrega esta clave al `Info.plist` de tu app para que un iPhone
+con pantalla de 120 Hz lo dibuje a su frecuencia completa; sin ella el formulario funciona, a 60 Hz:
 
 ```xml
 <key>CADisableMinimumFrameDurationOnPhone</key>

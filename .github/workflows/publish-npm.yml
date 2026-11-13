@@ -6,7 +6,9 @@ on:
 
 jobs:
   publish:
-    if: ${{ !contains(github.ref_name, 'alpha') && !contains(github.ref_name, 'beta') }}
+    # npmjs takes stable releases only, for now. Every semver prerelease carries a hyphen (1.0.0-beta.1, -rc.1,
+    # -next.0), whatever its name: those go to GitHub Packages alone (publish-github-packages.yml).
+    if: ${{ !contains(github.ref_name, '-') }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -50,16 +52,8 @@ jobs:
             exit 1
           fi
 
-          # Determine npm dist-tag
-          if echo "$TAG_VERSION" | grep -q "alpha"; then
-            echo "dist_tag=alpha" >> "$GITHUB_OUTPUT"
-          elif echo "$TAG_VERSION" | grep -q "beta"; then
-            echo "dist_tag=beta" >> "$GITHUB_OUTPUT"
-          else
-            echo "dist_tag=latest" >> "$GITHUB_OUTPUT"
-          fi
-
+      # Only a stable version reaches this job, so it is always npm's `latest`
       - name: Publish to npm
-        run: npm publish --tag ${{ steps.validate.outputs.dist_tag }}
+        run: npm publish --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
