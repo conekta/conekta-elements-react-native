@@ -110,7 +110,7 @@ jobs:
         run: ./gradlew assembleRelease --no-daemon
         env:
           GP_USER: ${{ secrets.GH_USER }}
-          GP_TOKEN: ${{ secrets.GH_TOKEN }}
+          GP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   validate-ios:
     name: Validate iOS
