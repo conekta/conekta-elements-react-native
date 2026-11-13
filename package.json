@@ -1,6 +1,6 @@
 {
   "name": "conekta-elements-react-native",
-  "version": "0.1.0-beta",
+  "version": "0.1.0-beta.1",
   "description": "React Native wrapper for Conekta Components Compose UI",
   "main": "src/index.ts",
   "types": "src/index.ts",

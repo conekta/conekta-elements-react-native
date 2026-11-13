@@ -9,8 +9,8 @@ class ConektaTokenizerHostView: UIView {
     @objc var locale: String? { didSet { updateIfReady() } }
     /// The card networks the form refuses (`amex`, `visa_master_card`).
     @objc var excludeCardNetworks: [String]? { didSet { updateIfReady() } }
-    @objc var onSuccess: RCTBubblingEventBlock?
-    @objc var onError: RCTBubblingEventBlock?
+    @objc var onSuccess: RCTDirectEventBlock?
+    @objc var onError: RCTDirectEventBlock?
 
     private var hostedVC: UIViewController?
     private var needsUpdate = false

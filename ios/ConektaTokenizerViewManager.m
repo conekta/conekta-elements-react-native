@@ -6,7 +6,7 @@ RCT_EXPORT_VIEW_PROPERTY(publicKey,    NSString)
 RCT_EXPORT_VIEW_PROPERTY(merchantName, NSString)
 RCT_EXPORT_VIEW_PROPERTY(locale,       NSString)
 RCT_EXPORT_VIEW_PROPERTY(excludeCardNetworks, NSArray)
-RCT_EXPORT_VIEW_PROPERTY(onSuccess,    RCTBubblingEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onError,      RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onSuccess,    RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onError,      RCTDirectEventBlock)
 
 @end
