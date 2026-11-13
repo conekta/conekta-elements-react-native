@@ -83,7 +83,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: read
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -101,16 +100,11 @@ jobs:
         working-directory: android
         run: ./gradlew tasks --no-daemon
 
-      # Compiles the bridge against the Conekta SDK and React Native: a dependency that does not resolve or code
-      # that does not compile fails the job. A Conekta prerelease comes from GitHub Packages, which answers only
-      # with a token: the workflow's own, which reads the package once conekta-elements grants this repository
-      # access to it (Package settings > Manage Actions access).
+      # Compiles the bridge against the Conekta SDK (Maven Central) and React Native, as a merchant's build does: a
+      # dependency that does not resolve or code that does not compile fails the job.
       - name: Build the Android library
         working-directory: android
         run: ./gradlew assembleRelease --no-daemon
-        env:
-          GP_USER: ${{ secrets.GH_USER }}
-          GP_TOKEN: ${{ secrets.GH_TOKEN }}
 
   validate-ios:
     name: Validate iOS

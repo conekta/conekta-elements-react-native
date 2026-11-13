@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0] - 2026-11-13
+
+### Changed
+
+- Uses Conekta Components 1.2.1, from Maven Central (Android) and `conekta/conekta-components-ios` (iOS)
+- **Breaking**: minimum React Native 0.81 (Android `compileSdk` 36, Android Gradle Plugin 8.9.1, Kotlin 2.1) and iOS 15.0; the iOS framework is arm64 only (devices and Apple silicon simulators)
+- iOS: `CADisableMinimumFrameDurationOnPhone` is required in the app's `Info.plist`
+
+### Added
+
+- `config.locale` (`'es' | 'en'`): the form's language, the device's by default
+- `config.excludeCardNetworks` (`'amex' | 'visa_master_card'`): card networks the form refuses
+
+### Fixed
+
+- iOS: `onSuccess` / `onError` are direct events; the form no longer fails to mount
+
 ## [0.1.0-beta.2] - 2026-11-13
 
 ### Changed
