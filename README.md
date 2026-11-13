@@ -1,14 +1,14 @@
 # conekta-elements-react-native
 
-React Native wrapper for [Conekta Elements](https://github.com/conekta/conekta-elements) — renders the native Compose UI directly on Android and iOS via a thin JavaScript bridge.
+React Native wrapper for Conekta Components — renders the native Compose UI directly on Android and iOS via a thin JavaScript bridge.
 
 ## Requirements
 
 | Platform | Minimum version |
 |----------|----------------|
 | Android  | API 24 (Android 7.0) |
-| iOS      | 14.0 |
-| React Native | 0.71+ |
+| iOS      | 15.0 (arm64 devices and simulators) |
+| React Native | 0.81+ |
 
 ## Installation
 
@@ -26,7 +26,7 @@ cd ios && pod install
 
 ### Android
 
-Autolinking registers the module automatically. No additional configuration is required.
+Autolinking registers the module automatically. The app must build with `compileSdk` 36, Android Gradle Plugin 8.9.1 and Kotlin 2.1 or newer, which React Native 0.81 already does.
 
 ## Usage
 
@@ -81,6 +81,8 @@ export default function CheckoutScreen() {
 |-------|------|---------|-------------|
 | `publicKey` | `string` | — | Conekta public key |
 | `merchantName` | `string` | `"Demo Store"` | Merchant name shown in the UI |
+| `locale` | `'es' \| 'en'` | device language | Language of the form |
+| `excludeCardNetworks` | `('amex' \| 'visa_master_card')[]` | `[]` | Card networks the form refuses |
 
 ### `TokenResult`
 

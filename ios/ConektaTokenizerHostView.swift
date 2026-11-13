@@ -5,6 +5,10 @@ import composeKit
 class ConektaTokenizerHostView: UIView {
     @objc var publicKey: String = "" { didSet { updateIfReady() } }
     @objc var merchantName: String = "Demo Store" { didSet { updateIfReady() } }
+    /// The form's language (`es`, `en`); `nil` follows the device's.
+    @objc var locale: String? { didSet { updateIfReady() } }
+    /// The card networks the form refuses (`amex`, `visa_master_card`).
+    @objc var excludeCardNetworks: [String]? { didSet { updateIfReady() } }
     @objc var onSuccess: RCTBubblingEventBlock?
     @objc var onError: RCTBubblingEventBlock?
 
@@ -31,14 +35,8 @@ class ConektaTokenizerHostView: UIView {
         hostedVC?.view.removeFromSuperview()
         hostedVC?.removeFromParent()
 
-        let config = TokenizerConfig(
-            publicKey: publicKey,
-            merchantName: merchantName,
-            collectCardholderName: true
-        )
-
         let vc = ConektaTokenizerViewControllerKt.ConektaTokenizerViewController(
-            config: config,
+            config: makeConfig(),
             onSuccess: { [weak self] (result: TokenizerResult) in
                 self?.onSuccess?(["token": result.token, "lastFour": result.lastFour])
             },
@@ -63,6 +61,17 @@ class ConektaTokenizerHostView: UIView {
             vc.didMove(toParent: parentVC)
             hostedVC = vc
         }
+    }
+
+    private func makeConfig() -> TokenizerConfig {
+        let networks = (excludeCardNetworks ?? []).map { CardNetwork.companion.fromSerialName(value: $0) }
+        let config = TokenizerConfig(
+            publicKey: publicKey,
+            merchantName: merchantName,
+            collectCardholderName: true
+        ).withExcludedCardNetworks(networks: networks)
+        guard let locale else { return config }
+        return config.withLocale(locale: ComponentsLocale.companion.of(tag: locale))
     }
 
     override func layoutSubviews() {

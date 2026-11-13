@@ -2,6 +2,7 @@
 
 exports[`ConektaTokenizer > renders successfully 1`] = `
 <ConektaTokenizerView
+  excludeCardNetworks={[]}
   merchantName="Demo Store"
   onError={[Function]}
   onSuccess={[Function]}

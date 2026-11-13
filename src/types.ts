@@ -1,7 +1,15 @@
 export interface TokenizerConfig {
   publicKey: string;
   merchantName?: string;
+  /** The form's language; the device's when omitted. */
+  locale?: TokenizerLocale;
+  /** Card networks the form refuses; none by default. */
+  excludeCardNetworks?: CardNetwork[];
 }
+
+export type TokenizerLocale = 'es' | 'en';
+
+export type CardNetwork = 'amex' | 'visa_master_card';
 
 export interface TokenResult {
   token: string;

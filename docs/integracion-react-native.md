@@ -1,14 +1,14 @@
 # Integración en React Native
 
-El SDK de React Native proporciona un wrapper que renderiza directamente la UI nativa de Conekta Elements en Android e iOS a través de un puente JavaScript ligero.
+El SDK de React Native proporciona un wrapper que renderiza directamente la UI nativa de Conekta Components en Android e iOS a través de un puente JavaScript ligero.
 
 ## Requisitos
 
 | Plataforma   | Versión mínima       |
 |--------------|----------------------|
 | Android      | API 24 (Android 7.0) |
-| iOS          | 14.0                 |
-| React Native | 0.71+                |
+| iOS          | 15.0 (dispositivos y simuladores arm64) |
+| React Native | 0.81+                |
 
 > ⚠️ **Indispensable**: Necesitas una **llave pública de Conekta** para utilizar el SDK.
 
@@ -32,7 +32,7 @@ cd ios && pod install
 
 ### Android
 
-El autolinking registra el módulo automáticamente. No se requiere configuración adicional.
+El autolinking registra el módulo automáticamente. La app debe compilar con `compileSdk` 36, Android Gradle Plugin 8.9.1 y Kotlin 2.1 o superior, lo que React Native 0.81 ya cumple.
 
 ## Paso 2: Implementar el tokenizador
 
@@ -85,6 +85,8 @@ export default function CheckoutScreen() {
 |-----------|------|-----------|---------|-------------|
 | `publicKey` | `string` | Sí | — | Llave pública de Conekta |
 | `merchantName` | `string` | No | `"Demo Store"` | Nombre del comercio mostrado en el formulario |
+| `locale` | `'es' \| 'en'` | No | Idioma del dispositivo | Idioma del formulario |
+| `excludeCardNetworks` | `('amex' \| 'visa_master_card')[]` | No | `[]` | Redes de tarjeta que el formulario rechaza |
 
 ## Respuesta exitosa
 

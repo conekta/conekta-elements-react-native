@@ -38,6 +38,25 @@ describe('ConektaTokenizer', () => {
     expect(root.props.merchantName).toBe('My Store');
   });
 
+  it('leaves the locale to the device and excludes no network by default', () => {
+    const tree = renderer.create(<ConektaTokenizer {...defaultProps} />);
+    const root = tree.root.findByType('ConektaTokenizerView' as any);
+    expect(root.props.locale).toBeUndefined();
+    expect(root.props.excludeCardNetworks).toEqual([]);
+  });
+
+  it('passes locale and excludeCardNetworks when provided', () => {
+    const tree = renderer.create(
+      <ConektaTokenizer
+        {...defaultProps}
+        config={{ publicKey: 'key_test_123', locale: 'en', excludeCardNetworks: ['amex'] }}
+      />
+    );
+    const root = tree.root.findByType('ConektaTokenizerView' as any);
+    expect(root.props.locale).toBe('en');
+    expect(root.props.excludeCardNetworks).toEqual(['amex']);
+  });
+
   it('unwraps nativeEvent on onSuccess callback', () => {
     const onSuccess = vi.fn();
     const tree = renderer.create(

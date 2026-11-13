@@ -14,7 +14,7 @@ if (fs.existsSync(xcframeworkDir)) {
   process.exit(0);
 }
 
-const url = `https://github.com/conekta/conekta-elements/releases/download/${version}/composeKit.xcframework.zip`;
+const url = `https://github.com/conekta/conekta-components-ios/releases/download/${version}/composeKit.xcframework.zip`;
 
 console.log(`[ConektaElements] Downloading composeKit.xcframework (${version})...`);
 

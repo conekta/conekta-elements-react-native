@@ -11,7 +11,7 @@ concurrency:
 jobs:
   typecheck-and-test:
     name: Type Check & Tests
-    runs-on: aws-runner-set
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
 
   validate-versions:
     name: Validate Versions
-    runs-on: aws-runner-set
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,7 +61,7 @@ jobs:
 
   validate-package:
     name: Validate Package
-    runs-on: aws-runner-set
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,7 +80,7 @@ jobs:
 
   validate-android:
     name: Validate Android
-    runs-on: aws-runner-set
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -104,7 +104,7 @@ jobs:
 
   validate-ios:
     name: Validate iOS
-    runs-on: aws-runner-set
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
