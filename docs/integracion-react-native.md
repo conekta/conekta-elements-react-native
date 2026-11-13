@@ -28,7 +28,9 @@ Después de instalar, ejecuta:
 cd ios && pod install
 ```
 
-`pod install` descarga automáticamente el XCFramework de Compose desde GitHub Releases.
+`npm install` ya descargó el XCFramework del SDK y sus fuentes (el script `postinstall` del paquete, verificado
+contra un checksum fijo); `pod install` los enlaza. Si instalas con `--ignore-scripts`, ejecuta
+`node node_modules/conekta-elements-react-native/scripts/download-xcframework.js` antes de `pod install`.
 
 El formulario se dibuja con Compose Multiplatform. Agrega esta clave al `Info.plist` de tu app para que un iPhone
 con pantalla de 120 Hz lo dibuje a su frecuencia completa; sin ella el formulario funciona, a 60 Hz:

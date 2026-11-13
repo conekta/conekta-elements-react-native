@@ -22,7 +22,9 @@ npm install conekta-elements-react-native
 cd ios && pod install
 ```
 
-`pod install` automatically downloads the Compose XCFramework from GitHub releases.
+`npm install` already downloaded the SDK's XCFramework and its fonts (the package's `postinstall` script, checked
+against a pinned checksum); `pod install` links them. If you install with `--ignore-scripts`, run
+`node node_modules/conekta-elements-react-native/scripts/download-xcframework.js` before `pod install`.
 
 The form is drawn with Compose Multiplatform. Add this key to your app's `Info.plist` so an iPhone with a
 120 Hz screen draws it at its full refresh rate; without it the form works, at 60 Hz:
@@ -142,6 +144,8 @@ cd conekta-elements-react-native
 npm install
 ```
 
+Node 22.12 or newer (`.nvmrc`).
+
 ### Scripts
 
 ```bash
@@ -150,16 +154,7 @@ npm run test:watch # Run tests in watch mode
 npx tsc --noEmit  # Type check
 ```
 
-### Example app
-
-```bash
-# Android
-cd example && npx react-native run-android
-
-# iOS
-cd example/ios && pod install && cd ..
-npx react-native run-ios
-```
+To check the Android bridge compiles: `cd android && ./gradlew assembleRelease`.
 
 ## License
 
