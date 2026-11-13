@@ -43,6 +43,17 @@ android {
 
 repositories {
     google()
+    maven {
+        name = "ConektaGitHubPackages"
+        url = uri("https://maven.pkg.github.com/conekta/conekta-elements")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GP_USER")
+            password = project.findProperty("gpr.token") ?: System.getenv("GP_TOKEN")
+        }
+        content {
+            includeGroup "io.conekta"
+        }
+    }
     mavenCentral()
 }
 
