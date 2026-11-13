@@ -1,10 +1,12 @@
 package io.conekta.rn
 
 import com.facebook.react.bridge.ReadableArray
+import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
+import com.facebook.react.uimanager.UIManagerHelper
 import com.facebook.react.uimanager.annotations.ReactProp
-import com.facebook.react.uimanager.events.RCTEventEmitter
+import com.facebook.react.uimanager.events.Event
 
 class ConektaTokenizerViewManager : SimpleViewManager<ConektaTokenizerNativeView>() {
 
@@ -12,15 +14,16 @@ class ConektaTokenizerViewManager : SimpleViewManager<ConektaTokenizerNativeView
 
     override fun createViewInstance(context: ThemedReactContext) =
         ConektaTokenizerNativeView(context).also { view ->
-            view.onSuccessEvent = { map ->
-                context.getJSModule(RCTEventEmitter::class.java)
-                    .receiveEvent(view.id, "onSuccess", map)
-            }
-            view.onErrorEvent = { map ->
-                context.getJSModule(RCTEventEmitter::class.java)
-                    .receiveEvent(view.id, "onError", map)
-            }
+            view.onSuccessEvent = { map -> view.send(context, "onSuccess", map) }
+            view.onErrorEvent = { map -> view.send(context, "onError", map) }
         }
+
+    /** Sends [payload] to the view's JS handler [name] through React Native's event dispatcher. */
+    private fun ConektaTokenizerNativeView.send(context: ThemedReactContext, name: String, payload: WritableMap) {
+        UIManagerHelper
+            .getEventDispatcherForReactTag(context, id)
+            ?.dispatchEvent(TokenizerEvent(UIManagerHelper.getSurfaceId(context), id, name, payload))
+    }
 
     @ReactProp(name = "publicKey")
     fun setPublicKey(view: ConektaTokenizerNativeView, value: String) =
@@ -42,4 +45,16 @@ class ConektaTokenizerViewManager : SimpleViewManager<ConektaTokenizerNativeView
         "onSuccess" to mapOf("registrationName" to "onSuccess"),
         "onError" to mapOf("registrationName" to "onError"),
     )
+}
+
+/** One answer of the tokenizer (`onSuccess`, `onError`) on its way to the view's JS handler. */
+private class TokenizerEvent(
+    surfaceId: Int,
+    viewId: Int,
+    private val name: String,
+    private val payload: WritableMap,
+) : Event<TokenizerEvent>(surfaceId, viewId) {
+    override fun getEventName(): String = name
+
+    override fun getEventData(): WritableMap = payload
 }
