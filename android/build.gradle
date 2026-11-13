@@ -61,8 +61,9 @@ dependencies {
     // Conekta Components with Compose UI
     implementation "io.conekta:conekta-components-compose:${packageJson.conektaElements.version}"
 
-    // React Native
-    implementation "com.facebook.react:react-android"
+    // React Native: the host app's React Native plugin names the version. Built alone (this repository's CI)
+    // nothing does, so the lowest version this library supports stands in
+    implementation rootProject == project ? "com.facebook.react:react-android:0.81.6" : "com.facebook.react:react-android"
 
     // Compose: the SDK lists it for the runtime only, the bridge compiles against it
     implementation platform("androidx.compose:compose-bom:2025.09.00")
