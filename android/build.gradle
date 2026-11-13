@@ -1,13 +1,13 @@
 def packageJson = new groovy.json.JsonSlurper().parse(file("$projectDir/../package.json"))
 
 buildscript {
-    ext.kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.kotlinVersion : '2.0.21'
+    ext.kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.kotlinVersion : '2.1.20'
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'com.android.tools.build:gradle:8.11.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlin_version"
     }
@@ -18,7 +18,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 36
     namespace "io.conekta.rn"
 
     defaultConfig {
@@ -47,13 +47,15 @@ repositories {
 }
 
 dependencies {
-    // Conekta Elements with Compose UI
-    implementation "io.conekta:conekta-elements-compose:${packageJson.conektaElements.version}"
+    // Conekta Components with Compose UI
+    implementation "io.conekta:conekta-components-compose:${packageJson.conektaElements.version}"
 
-    // React Native
-    implementation "com.facebook.react:react-android"
+    // React Native: the host app's React Native plugin names the version. Built alone (this repository's CI)
+    // nothing does, so the lowest version this library supports stands in
+    implementation rootProject == project ? "com.facebook.react:react-android:0.81.6" : "com.facebook.react:react-android"
 
-    // Compose BOM
-    implementation platform("androidx.compose:compose-bom:2024.02.00")
+    // Compose: the SDK lists it for the runtime only, the bridge compiles against it
+    implementation platform("androidx.compose:compose-bom:2025.09.00")
     implementation "androidx.compose.runtime:runtime"
+    implementation "androidx.compose.ui:ui"
 }

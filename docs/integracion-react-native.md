@@ -1,14 +1,14 @@
 # Integración en React Native
 
-El SDK de React Native proporciona un wrapper que renderiza directamente la UI nativa de Conekta Elements en Android e iOS a través de un puente JavaScript ligero.
+El SDK de React Native proporciona un wrapper que renderiza directamente la UI nativa de Conekta Components en Android e iOS a través de un puente JavaScript ligero.
 
 ## Requisitos
 
 | Plataforma   | Versión mínima       |
 |--------------|----------------------|
 | Android      | API 24 (Android 7.0) |
-| iOS          | 14.0                 |
-| React Native | 0.71+                |
+| iOS          | 15.0 (dispositivos y simuladores arm64) |
+| React Native | 0.81+                |
 
 > ⚠️ **Indispensable**: Necesitas una **llave pública de Conekta** para utilizar el SDK.
 
@@ -28,11 +28,21 @@ Después de instalar, ejecuta:
 cd ios && pod install
 ```
 
-`pod install` descarga automáticamente el XCFramework de Compose desde GitHub Releases.
+`npm install` ya descargó el XCFramework del SDK y sus fuentes (el script `postinstall` del paquete, verificado
+contra un checksum fijo); `pod install` los enlaza. Si instalas con `--ignore-scripts`, ejecuta
+`node node_modules/conekta-elements-react-native/scripts/download-xcframework.js` antes de `pod install`.
+
+El formulario se dibuja con Compose Multiplatform. Agrega esta clave al `Info.plist` de tu app para que un iPhone
+con pantalla de 120 Hz lo dibuje a su frecuencia completa; sin ella el formulario funciona, a 60 Hz:
+
+```xml
+<key>CADisableMinimumFrameDurationOnPhone</key>
+<true/>
+```
 
 ### Android
 
-El autolinking registra el módulo automáticamente. No se requiere configuración adicional.
+El autolinking registra el módulo automáticamente. La app debe compilar con `compileSdk` 36, Android Gradle Plugin 8.9.1 y Kotlin 2.1 o superior, lo que React Native 0.81 ya cumple.
 
 ## Paso 2: Implementar el tokenizador
 
@@ -85,6 +95,8 @@ export default function CheckoutScreen() {
 |-----------|------|-----------|---------|-------------|
 | `publicKey` | `string` | Sí | — | Llave pública de Conekta |
 | `merchantName` | `string` | No | `"Demo Store"` | Nombre del comercio mostrado en el formulario |
+| `locale` | `'es' \| 'en'` | No | Idioma del dispositivo | Idioma del formulario |
+| `excludeCardNetworks` | `('amex' \| 'visa_master_card')[]` | No | `[]` | Redes de tarjeta que el formulario rechaza |
 
 ## Respuesta exitosa
 

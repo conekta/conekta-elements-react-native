@@ -6,13 +6,13 @@ elements = package['conektaElements']
 Pod::Spec.new do |s|
   s.name    = "ConektaElements"
   s.version = package['version']
-  s.summary = "React Native wrapper for Conekta Elements Compose UI"
+  s.summary = "React Native wrapper for Conekta Components Compose UI"
   s.homepage = "https://github.com/conekta/conekta-elements-react-native"
   s.license  = { :type => "MIT" }
   s.author   = { "Conekta" => "engineering@conekta.com" }
   s.source   = { :git => "https://github.com/conekta/conekta-elements-react-native.git", :tag => s.version }
 
-  s.ios.deployment_target = "14.0"
+  s.ios.deployment_target = "15.0"
   s.swift_version = "5.9"
 
   s.dependency "React-Core"
@@ -20,14 +20,21 @@ Pod::Spec.new do |s|
   s.prepare_command = <<-CMD
     set -e
     curl -L \
-         "https://github.com/conekta/conekta-elements/releases/download/#{elements['version']}/composeKit.xcframework.zip" \
+         "https://github.com/conekta/conekta-components-ios/releases/download/#{elements['version']}/composeKit.xcframework.zip" \
          -o composeKit.xcframework.zip
     echo "#{elements['iosChecksum']}  composeKit.xcframework.zip" | shasum -a 256 -c -
     unzip -o composeKit.xcframework.zip
     rm     composeKit.xcframework.zip
+    rm -rf compose-resources
+    mkdir -p compose-resources
+    cp -R composeKit.xcframework/ios-arm64/composeKit.framework/composeResources compose-resources/
   CMD
 
   s.vendored_frameworks = "composeKit.xcframework"
+  # The form's fonts, copied into the app as `compose-resources/`, where the form looks for them: the resources
+  # inside a static framework are not copied by themselves. The folder is made from the framework on install
+  # (scripts/download-xcframework.js, or prepare_command above).
+  s.resources           = "compose-resources"
   s.source_files        = "ios/**/*.{swift,m,h}"
   s.pod_target_xcconfig = { "SWIFT_VERSION" => "5.9" }
 end

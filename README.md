@@ -1,14 +1,14 @@
 # conekta-elements-react-native
 
-React Native wrapper for [Conekta Elements](https://github.com/conekta/conekta-elements) — renders the native Compose UI directly on Android and iOS via a thin JavaScript bridge.
+React Native wrapper for Conekta Components — renders the native Compose UI directly on Android and iOS via a thin JavaScript bridge.
 
 ## Requirements
 
 | Platform | Minimum version |
 |----------|----------------|
 | Android  | API 24 (Android 7.0) |
-| iOS      | 14.0 |
-| React Native | 0.71+ |
+| iOS      | 15.0 (arm64 devices and simulators) |
+| React Native | 0.81+ |
 
 ## Installation
 
@@ -22,11 +22,21 @@ npm install conekta-elements-react-native
 cd ios && pod install
 ```
 
-`pod install` automatically downloads the Compose XCFramework from GitHub releases.
+`npm install` already downloaded the SDK's XCFramework and its fonts (the package's `postinstall` script, checked
+against a pinned checksum); `pod install` links them. If you install with `--ignore-scripts`, run
+`node node_modules/conekta-elements-react-native/scripts/download-xcframework.js` before `pod install`.
+
+The form is drawn with Compose Multiplatform. Add this key to your app's `Info.plist` so an iPhone with a
+120 Hz screen draws it at its full refresh rate; without it the form works, at 60 Hz:
+
+```xml
+<key>CADisableMinimumFrameDurationOnPhone</key>
+<true/>
+```
 
 ### Android
 
-Autolinking registers the module automatically. No additional configuration is required.
+Autolinking registers the module automatically. The app must build with `compileSdk` 36, Android Gradle Plugin 8.9.1 and Kotlin 2.1 or newer, which React Native 0.81 already does.
 
 ## Usage
 
@@ -81,6 +91,8 @@ export default function CheckoutScreen() {
 |-------|------|---------|-------------|
 | `publicKey` | `string` | — | Conekta public key |
 | `merchantName` | `string` | `"Demo Store"` | Merchant name shown in the UI |
+| `locale` | `'es' \| 'en'` | device language | Language of the form |
+| `excludeCardNetworks` | `('amex' \| 'visa_master_card')[]` | `[]` | Card networks the form refuses |
 
 ### `TokenResult`
 
@@ -132,6 +144,8 @@ cd conekta-elements-react-native
 npm install
 ```
 
+Node 22.12 or newer (`.nvmrc`).
+
 ### Scripts
 
 ```bash
@@ -140,16 +154,7 @@ npm run test:watch # Run tests in watch mode
 npx tsc --noEmit  # Type check
 ```
 
-### Example app
-
-```bash
-# Android
-cd example && npx react-native run-android
-
-# iOS
-cd example/ios && pod install && cd ..
-npx react-native run-ios
-```
+To check the Android bridge compiles: `cd android && ./gradlew assembleRelease`.
 
 ## License
 
