@@ -30,6 +30,14 @@ cd ios && pod install
 
 `pod install` descarga automáticamente el XCFramework de Compose desde GitHub Releases.
 
+El formulario se dibuja con Compose Multiplatform, que exige esta clave en el `Info.plist` de tu app; sin ella la
+app se cierra al abrir el formulario:
+
+```xml
+<key>CADisableMinimumFrameDurationOnPhone</key>
+<true/>
+```
+
 ### Android
 
 El autolinking registra el módulo automáticamente. La app debe compilar con `compileSdk` 36, Android Gradle Plugin 8.9.1 y Kotlin 2.1 o superior, lo que React Native 0.81 ya cumple.
