@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - iOS: `onSuccess` / `onError` are direct events; the form no longer fails to mount
 
-## [0.1.0-beta.2] - 2026-11-13
+## [0.1.0-beta.3] - 2026-11-13
 
 ### Changed
 
