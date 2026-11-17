@@ -25,8 +25,9 @@ function downloadFramework() {
 }
 
 /**
- * Puts the form's fonts where CocoaPods takes them from (the podspec's `resources`). The form looks for them
- * under `compose-resources/` in the app, and the resources of a static framework never get there by themselves.
+ * Puts the form's resources (its texts in es/en, fonts and brand marks) where CocoaPods takes them from (the
+ * podspec's `resources`). The form looks for them under `compose-resources/` in the app, and the resources of a
+ * static framework never get there by themselves; without them the form loses its text, not only its typeface.
  */
 function exposeResources() {
   const source = path.join(xcframeworkDir, 'ios-arm64', 'composeKit.framework', 'composeResources');

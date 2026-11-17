@@ -31,9 +31,10 @@ Pod::Spec.new do |s|
   CMD
 
   s.vendored_frameworks = "composeKit.xcframework"
-  # The form's fonts, copied into the app as `compose-resources/`, where the form looks for them: the resources
-  # inside a static framework are not copied by themselves. The folder is made from the framework on install
-  # (scripts/download-xcframework.js, or prepare_command above).
+  # The form's resources (its texts in es/en, fonts and brand marks), copied into the app as `compose-resources/`,
+  # where the form looks for them: the resources inside a static framework are not copied by themselves, and
+  # without them the form loses its text, not only its typeface. The folder is made from the framework on
+  # install (scripts/download-xcframework.js, or prepare_command above).
   s.resources           = "compose-resources"
   s.source_files        = "ios/**/*.{swift,m,h}"
   s.pod_target_xcconfig = { "SWIFT_VERSION" => "5.9" }

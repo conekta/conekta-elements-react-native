@@ -38,11 +38,14 @@ class ConektaTokenizerHostView: UIView {
         }
     }
 
-    /// React Native removes the view when the component unmounts: the form leaves its parent with it.
+    /// React Native removes the view when the component unmounts: the form leaves its parent with it. The view
+    /// may come back (`removeClippedSubviews` detaches and reattaches it), so it is left marked to build the
+    /// form again in `didMoveToWindow`.
     override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         if newSuperview == nil {
             removeHostedViewController()
+            needsUpdate = true
         }
     }
 

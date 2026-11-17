@@ -22,8 +22,10 @@ npm install conekta-elements-react-native
 cd ios && pod install
 ```
 
-`npm install` already downloaded the SDK's XCFramework and its fonts (the package's `postinstall` script, checked
-against a pinned checksum); `pod install` links them. If you install with `--ignore-scripts`, run
+`npm install` already downloaded the SDK's XCFramework and its resources (the package's `postinstall` script,
+checked against a pinned checksum); `pod install` links them. If the script did not run, the iOS build fails:
+that happens when you install with `--ignore-scripts`, or with pnpm 10+ or Bun, which do not run a dependency's
+install scripts unless you allow them. In that case run
 `node node_modules/conekta-elements-react-native/scripts/download-xcframework.js` before `pod install`.
 
 The form is drawn with Compose Multiplatform. Add this key to your app's `Info.plist` so an iPhone with a

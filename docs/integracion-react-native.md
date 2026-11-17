@@ -28,8 +28,10 @@ Después de instalar, ejecuta:
 cd ios && pod install
 ```
 
-`npm install` ya descargó el XCFramework del SDK y sus fuentes (el script `postinstall` del paquete, verificado
-contra un checksum fijo); `pod install` los enlaza. Si instalas con `--ignore-scripts`, ejecuta
+`npm install` ya descargó el XCFramework del SDK y sus recursos (el script `postinstall` del paquete, verificado
+contra un checksum fijo); `pod install` los enlaza. Si el script no se ejecutó, el build de iOS falla: pasa
+cuando instalas con `--ignore-scripts`, o con pnpm 10+ o Bun, que no ejecutan los scripts de instalación de una
+dependencia a menos que los permitas. En ese caso ejecuta
 `node node_modules/conekta-elements-react-native/scripts/download-xcframework.js` antes de `pod install`.
 
 El formulario se dibuja con Compose Multiplatform. Agrega esta clave al `Info.plist` de tu app para que un iPhone
