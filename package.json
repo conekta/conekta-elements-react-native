@@ -1,7 +1,7 @@
 {
   "name": "conekta-elements-react-native",
-  "version": "0.0.1",
-  "description": "React Native wrapper for Conekta Elements Compose UI",
+  "version": "0.1.0",
+  "description": "React Native wrapper for Conekta Components Compose UI",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "files": [
@@ -15,8 +15,7 @@
     "android/gradlew.bat",
     "ios/",
     "scripts/",
-    "ConektaElements.podspec",
-    "react-native.config.js"
+    "ConektaElements.podspec"
   ],
   "keywords": [
     "react-native",
@@ -38,21 +37,19 @@
     "test:watch": "vitest"
   },
   "conektaElements": {
-    "version": "0.2.0-beta.2",
-    "iosChecksum": "e5fc1a7030756eea3f8cc4c229c178baac9369e4c3ba3238274f03824fdb02b2"
+    "version": "1.2.2",
+    "iosChecksum": "be2a76429f754ef02967487a6a8c6cda397987db537231219f52e3074176d167"
   },
   "license": "MIT",
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": ">=0.81.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-test-renderer": "^19.1.0",
-    "react": "18.2.0",
-    "react-native": "0.73.6",
-    "react-test-renderer": "^18.2.0",
-    "typescript": "^5.0.0",
-    "vitest": "^4.0.18"
+    "@types/react": "^19.1.0",
+    "react": "19.1.0",
+    "react-native": "0.81.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
   }
 }

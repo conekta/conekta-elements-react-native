@@ -14,6 +14,8 @@ export function ConektaTokenizer({
     <NativeTokenizer
       publicKey={config.publicKey}
       merchantName={config.merchantName ?? 'Demo Store'}
+      locale={config.locale}
+      excludeCardNetworks={config.excludeCardNetworks ?? []}
       onSuccess={(e: NativeSyntheticEvent<TokenResult>) => onSuccess(e.nativeEvent)}
       onError={(e: NativeSyntheticEvent<TokenizerError>) => onError(e.nativeEvent)}
       style={[{ flex: 1 }, style]}

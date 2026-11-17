@@ -1,0 +1,74 @@
+name: Publish to GitHub Packages
+
+# A release publishes the package to GitHub Packages (npm.pkg.github.com) as
+# @conekta/conekta-elements-react-native. The npm dist-tag follows the version: a prerelease is tagged with the
+# name it carries after the hyphen (1.0.0-beta.1 → `beta`, -rc.1 → `rc`), a stable version is `latest`, so
+# `npm install` never picks a prerelease by itself.
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://npm.pkg.github.com
+          scope: '@conekta'
+
+      # --ignore-scripts: `postinstall` downloads the iOS XCFramework, which neither the tests nor the tarball need
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run tests
+        run: npm test
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Validate CHANGELOG contains version entry
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if ! grep -q "\[${PACKAGE_VERSION}\]" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no '## [${PACKAGE_VERSION}]' section"
+            exit 1
+          fi
+
+      - name: Validate tag matches package version
+        id: validate
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if [ "$TAG_VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "::error::Tag $TAG_VERSION does not match package.json version $PACKAGE_VERSION"
+            exit 1
+          fi
+          DIST_TAG=latest
+          case "$TAG_VERSION" in
+            *-*)
+              PRERELEASE="${TAG_VERSION#*-}"
+              DIST_TAG="${PRERELEASE%%.*}"
+              ;;
+          esac
+          echo "dist_tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
+
+      # GitHub Packages takes only packages scoped to the organization: the published copy is renamed here (the
+      # runner's checkout, discarded after the job) and its registry set; `repository.url` already names this
+      # repository, which links the package to it. GITHUB_TOKEN publishes through `packages: write`.
+      - name: Publish @conekta/conekta-elements-react-native
+        run: |
+          npm pkg set name=@conekta/conekta-elements-react-native publishConfig.registry=https://npm.pkg.github.com
+          npm pkg delete publishConfig.access
+          npm publish --tag ${{ steps.validate.outputs.dist_tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
