@@ -56,5 +56,3 @@ jobs:
       # Only a stable version reaches this job, so it is always npm's `latest`
       - name: Publish to npm
         run: npm publish --tag latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.USER_GITHUB_TOKEN }}
