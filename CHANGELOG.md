@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-11-18
+
+### Changed
+
+- Uses Conekta Components 1.3.0-beta.1
+- Android: Maven Local is read before the other repositories, for a Conekta Components version published from its repository
+
+### Added
+
+- `appearance` prop (`TokenizerAppearance`): the form's theme (`conekta`, `flat`, `night`), colors, corner radii and font family
+- `config.logoDisplay` (`'inline' | 'none'`): hides Conekta's header
+
 ## [0.1.0] - 2026-11-13
 
 ### Changed

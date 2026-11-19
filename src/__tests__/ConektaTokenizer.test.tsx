@@ -48,6 +48,19 @@ describe('ConektaTokenizer', () => {
     expect(root.props.excludeCardNetworks).toEqual(['amex']);
   });
 
+  it('keeps the logo and the look of the SDK by default', () => {
+    const root = nativeView();
+    expect(root.props.logoDisplay).toBeUndefined();
+    expect(root.props.appearance).toEqual({});
+  });
+
+  it('passes logoDisplay and appearance when provided', () => {
+    const appearance = { theme: 'night', colorPrimary: '#FF7A00', inputBorderRadius: 12 } as const;
+    const root = nativeView({ config: { publicKey: 'key_test_123', logoDisplay: 'none' }, appearance });
+    expect(root.props.logoDisplay).toBe('none');
+    expect(root.props.appearance).toEqual(appearance);
+  });
+
   it('unwraps nativeEvent on onSuccess callback', () => {
     const onSuccess = vi.fn();
     const root = nativeView({ onSuccess: onSuccess });

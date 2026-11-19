@@ -3,13 +3,16 @@ package io.conekta.rn
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.AbstractComposeView
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.WritableMap
 import io.conekta.components.i18n.ComponentsLocale
+import io.conekta.components.options.InlineDisplay
 import io.conekta.components.paymentmethods.card.CardNetwork
 import io.conekta.components.tokenizer.models.TokenizerConfig
 import io.conekta.components.tokenizer.models.TokenizerError
+import io.conekta.compose.components.ComponentAppearance
 import io.conekta.compose.tokenizer.ConektaTokenizer
 
 class ConektaTokenizerNativeView(context: Context) : AbstractComposeView(context) {
@@ -17,6 +20,8 @@ class ConektaTokenizerNativeView(context: Context) : AbstractComposeView(context
     private val merchantNameState = mutableStateOf("Demo Store")
     private val localeState = mutableStateOf<String?>(null)
     private val excludeCardNetworksState = mutableStateOf(emptyList<String>())
+    private val logoDisplayState = mutableStateOf<String?>(null)
+    private val appearanceState = mutableStateOf(emptyMap<String, Any?>())
 
     var onSuccessEvent: ((WritableMap) -> Unit)? = null
     var onErrorEvent: ((WritableMap) -> Unit)? = null
@@ -39,6 +44,16 @@ class ConektaTokenizerNativeView(context: Context) : AbstractComposeView(context
         excludeCardNetworksState.value = value
     }
 
+    /** Whether Conekta's header shows (`inline`, `none`); `null` is the SDK's default. */
+    fun setLogoDisplay(value: String?) {
+        logoDisplayState.value = value
+    }
+
+    /** The form's look as the JS side wrote it: the SDK's appearance variables by name. */
+    fun setAppearance(value: Map<String, Any?>) {
+        appearanceState.value = value
+    }
+
     @Composable
     override fun Content() {
         val publicKey = publicKeyState.value
@@ -51,9 +66,13 @@ class ConektaTokenizerNativeView(context: Context) : AbstractComposeView(context
                         locale = localeState.value?.let { ComponentsLocale.of(it) },
                         excludeCardNetworks =
                                 excludeCardNetworksState.value.map { CardNetwork.fromSerialName(it) },
+                        logoDisplay = InlineDisplay.of(logoDisplayState.value),
                 )
+        val values = appearanceState.value
+        val appearance = remember(values) { ComponentAppearance.of(values) }
         ConektaTokenizer(
                 config = config,
+                appearance = appearance,
                 onSuccess = { result ->
                     val map =
                             Arguments.createMap().apply {

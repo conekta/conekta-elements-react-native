@@ -6,6 +6,7 @@ const NativeTokenizer = requireNativeComponent<any>('ConektaTokenizerView');
 
 export function ConektaTokenizer({
   config,
+  appearance,
   onSuccess,
   onError,
   style,
@@ -16,6 +17,8 @@ export function ConektaTokenizer({
       merchantName={config.merchantName ?? 'Demo Store'}
       locale={config.locale}
       excludeCardNetworks={config.excludeCardNetworks ?? []}
+      logoDisplay={config.logoDisplay}
+      appearance={appearance ?? {}}
       onSuccess={(e: NativeSyntheticEvent<TokenResult>) => onSuccess(e.nativeEvent)}
       onError={(e: NativeSyntheticEvent<TokenizerError>) => onError(e.nativeEvent)}
       style={[{ flex: 1 }, style]}

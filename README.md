@@ -83,6 +83,7 @@ export default function CheckoutScreen() {
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `TokenizerConfig` | Yes | Public key and merchant settings |
+| `appearance` | `TokenizerAppearance` | No | The form's look; Conekta's when omitted |
 | `onSuccess` | `(result: TokenResult) => void` | Yes | Called when tokenization succeeds |
 | `onError` | `(error: TokenizerError) => void` | Yes | Called when tokenization fails |
 | `style` | `StyleProp<ViewStyle>` | No | View style |
@@ -95,6 +96,41 @@ export default function CheckoutScreen() {
 | `merchantName` | `string` | `"Demo Store"` | Merchant name shown in the UI |
 | `locale` | `'es' \| 'en'` | device language | Language of the form |
 | `excludeCardNetworks` | `('amex' \| 'visa_master_card')[]` | `[]` | Card networks the form refuses |
+| `logoDisplay` | `'inline' \| 'none'` | `'inline'` | Whether Conekta's header (its logo) shows above the form |
+
+### `TokenizerAppearance`
+
+```tsx
+<ConektaTokenizer
+  config={{ publicKey: 'key_xxx', logoDisplay: 'none' }}
+  appearance={{ theme: 'night', colorPrimary: '#FF7A00', inputBorderRadius: 12, fontFamily: 'Poppins' }}
+  onSuccess={onSuccess}
+  onError={onError}
+/>
+```
+
+Colors are CSS hex, sizes whole dp / pt. The theme is applied first, so a variable written beside it wins.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `theme` | `'conekta' \| 'flat' \| 'night'` | Preset: Conekta's look, filled fields, or dark |
+| `colorPrimary` | `string` | The button and the focused field |
+| `colorSelected` | `string` | A selected option |
+| `colorBackground` | `string` | The form's background |
+| `colorBannerBackground` | `string` | The background of notices |
+| `colorText` | `string` | Titles and body text |
+| `colorTextSecondary` | `string` | Hints and secondary text |
+| `colorDanger` | `string` | Errors |
+| `borderColor` | `string` | Borders |
+| `borderRadius` | `number` | Corner radius of the button and surfaces |
+| `fontFamily` | `string` | A font family by name, bundled in the app or installed on the device; Conekta's when not found |
+| `colorLabel` | `string` | The label above each field |
+| `colorInputText` | `string` | What the shopper types |
+| `colorInputBackground` | `string` | A field's fill |
+| `colorInputBorder` | `string` | A field's border; `borderColor` when omitted |
+| `inputBorderRadius` | `number` | A field's corner radius |
+
+On iOS a changed `appearance` or `config` value builds the form again, empty: set them before the shopper types.
 
 ### `TokenResult`
 
