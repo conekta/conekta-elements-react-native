@@ -9,8 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Uses Conekta Components 1.3.0-beta.1
-- Android: Maven Local is read before the other repositories, for a Conekta Components version published from its repository
+- Uses Conekta Components 1.3.0, from Maven Central (Android) and `conekta/conekta-components-ios` (iOS)
 
 ### Added
 
