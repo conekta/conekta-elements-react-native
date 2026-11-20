@@ -1,6 +1,6 @@
 {
   "name": "conekta-elements-react-native",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React Native wrapper for Conekta Components Compose UI",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -37,8 +37,8 @@
     "test:watch": "vitest"
   },
   "conektaElements": {
-    "version": "1.2.2",
-    "iosChecksum": "be2a76429f754ef02967487a6a8c6cda397987db537231219f52e3074176d167"
+    "version": "1.3.0",
+    "iosChecksum": "3814e3f6465725064095c409fbdc9b2425533c1ebf363c2a6d0eecb4000f3748"
   },
   "license": "MIT",
   "peerDependencies": {

@@ -9,6 +9,11 @@ class ConektaTokenizerHostView: UIView {
     @objc var locale: String? { didSet { rebuildIfChanged(locale, from: oldValue) } }
     /// The card networks the form refuses (`amex`, `visa_master_card`).
     @objc var excludeCardNetworks: [String]? { didSet { rebuildIfChanged(excludeCardNetworks, from: oldValue) } }
+    /// Whether Conekta's header shows (`inline`, `none`); `nil` is the SDK's default.
+    @objc var logoDisplay: String? { didSet { rebuildIfChanged(logoDisplay, from: oldValue) } }
+    /// The form's look as the JS side wrote it: the SDK's appearance variables by name. An `NSDictionary`
+    /// compares by value, so the object React Native builds again on every render rebuilds nothing.
+    @objc var appearance: NSDictionary? { didSet { rebuildIfChanged(appearance, from: oldValue) } }
     @objc var onSuccess: RCTDirectEventBlock?
     @objc var onError: RCTDirectEventBlock?
 
@@ -63,6 +68,7 @@ class ConektaTokenizerHostView: UIView {
 
         let vc = ConektaTokenizerViewControllerKt.ConektaTokenizerViewController(
             config: makeConfig(),
+            appearance: makeAppearance(),
             onSuccess: { [weak self] (result: TokenizerResult) in
                 self?.onSuccess?(["token": result.token, "lastFour": result.lastFour])
             },
@@ -95,9 +101,16 @@ class ConektaTokenizerHostView: UIView {
             publicKey: publicKey,
             merchantName: merchantName,
             collectCardholderName: true
-        ).withExcludedCardNetworks(networks: networks)
+        )
+            .withExcludedCardNetworks(networks: networks)
+            .withLogoDisplay(logoDisplay: InlineDisplay.companion.of(name: logoDisplay))
         guard let locale else { return config }
         return config.withLocale(locale: ComponentsLocale.companion.of(tag: locale))
+    }
+
+    private func makeAppearance() -> ComponentAppearance {
+        let values = appearance as? [String: Any] ?? [:]
+        return ComponentAppearance.companion.of(values: values)
     }
 
     override func layoutSubviews() {

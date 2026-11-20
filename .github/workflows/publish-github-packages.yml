@@ -64,11 +64,11 @@ jobs:
 
       # GitHub Packages takes only packages scoped to the organization: the published copy is renamed here (the
       # runner's checkout, discarded after the job) and its registry set; `repository.url` already names this
-      # repository, which links the package to it. GITHUB_TOKEN publishes through `packages: write`.
+      # repository, which links the package to it.  github.token publishes through `packages: write`.
       - name: Publish @conekta/conekta-elements-react-native
         run: |
           npm pkg set name=@conekta/conekta-elements-react-native publishConfig.registry=https://npm.pkg.github.com
           npm pkg delete publishConfig.access
           npm publish --tag ${{ steps.validate.outputs.dist_tag }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ github.token }}

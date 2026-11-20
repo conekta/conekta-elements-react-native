@@ -87,6 +87,7 @@ export default function CheckoutScreen() {
 | Prop | Tipo | Requerido | Descripción |
 |------|------|-----------|-------------|
 | `config` | `TokenizerConfig` | Sí | Llave pública y configuración del comercio |
+| `appearance` | `TokenizerAppearance` | No | Apariencia del formulario; la de Conekta si se omite |
 | `onSuccess` | `(result: TokenResult) => void` | Sí | Se ejecuta cuando la tokenización es exitosa |
 | `onError` | `(error: TokenizerError) => void` | Sí | Se ejecuta cuando la tokenización falla |
 | `style` | `StyleProp<ViewStyle>` | No | Estilo del contenedor |
@@ -99,6 +100,43 @@ export default function CheckoutScreen() {
 | `merchantName` | `string` | No | `"Demo Store"` | Nombre del comercio mostrado en el formulario |
 | `locale` | `'es' \| 'en'` | No | Idioma del dispositivo | Idioma del formulario |
 | `excludeCardNetworks` | `('amex' \| 'visa_master_card')[]` | No | `[]` | Redes de tarjeta que el formulario rechaza |
+| `logoDisplay` | `'inline' \| 'none'` | No | `'inline'` | Si se muestra el encabezado de Conekta (su logo) sobre el formulario |
+
+## Apariencia
+
+```tsx
+<ConektaTokenizer
+  config={{ publicKey: 'key_xxx', logoDisplay: 'none' }}
+  appearance={{ theme: 'night', colorPrimary: '#FF7A00', inputBorderRadius: 12, fontFamily: 'Poppins' }}
+  onSuccess={onSuccess}
+  onError={onError}
+/>
+```
+
+Los colores son hex de CSS y las medidas dp / pt enteros. El tema se aplica primero: una variable escrita junto a él
+gana sobre el valor del tema.
+
+| Variable | Tipo | Descripción |
+|----------|------|-------------|
+| `theme` | `'conekta' \| 'flat' \| 'night'` | Preset: el de Conekta, campos rellenos u oscuro |
+| `colorPrimary` | `string` | El botón y el campo enfocado |
+| `colorSelected` | `string` | Una opción seleccionada |
+| `colorBackground` | `string` | Fondo del formulario |
+| `colorBannerBackground` | `string` | Fondo de los avisos |
+| `colorText` | `string` | Títulos y texto |
+| `colorTextSecondary` | `string` | Ayudas y texto secundario |
+| `colorDanger` | `string` | Errores |
+| `borderColor` | `string` | Bordes |
+| `borderRadius` | `number` | Radio de las esquinas del botón y las superficies |
+| `fontFamily` | `string` | Familia tipográfica por nombre, incluida en la app o instalada en el dispositivo; la de Conekta si no se encuentra |
+| `colorLabel` | `string` | La etiqueta sobre cada campo |
+| `colorInputText` | `string` | Lo que escribe el comprador |
+| `colorInputBackground` | `string` | Relleno de un campo |
+| `colorInputBorder` | `string` | Borde de un campo; `borderColor` si se omite |
+| `inputBorderRadius` | `number` | Radio de las esquinas de un campo |
+
+En iOS, un valor de `appearance` o de `config` que cambia vuelve a construir el formulario, vacío: defínelos antes de
+que el comprador escriba.
 
 ## Respuesta exitosa
 

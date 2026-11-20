@@ -1,6 +1,7 @@
 package io.conekta.rn
 
 import com.facebook.react.bridge.ReadableArray
+import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
@@ -40,6 +41,14 @@ class ConektaTokenizerViewManager : SimpleViewManager<ConektaTokenizerNativeView
     @ReactProp(name = "excludeCardNetworks")
     fun setExcludeCardNetworks(view: ConektaTokenizerNativeView, value: ReadableArray?) =
         view.setExcludeCardNetworks(value?.toArrayList()?.map { it.toString() }.orEmpty())
+
+    @ReactProp(name = "logoDisplay")
+    fun setLogoDisplay(view: ConektaTokenizerNativeView, value: String?) =
+        view.setLogoDisplay(value)
+
+    @ReactProp(name = "appearance")
+    fun setAppearance(view: ConektaTokenizerNativeView, value: ReadableMap?) =
+        view.setAppearance(value?.toHashMap().orEmpty())
 
     override fun getExportedCustomDirectEventTypeConstants() = mapOf(
         "onSuccess" to mapOf("registrationName" to "onSuccess"),
